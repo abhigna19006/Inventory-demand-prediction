@@ -79,3 +79,45 @@ print("Charts saved:")
 print("- category_sales.png")
 print("- region_sales.png")
 print("- daily_sales_trend.png")
+
+# -------------------------------
+# 6. Demand Forecast vs Actual Sales
+# -------------------------------
+forecast_comparison = df[
+    ["Demand Forecast", "Units Sold"]
+].mean()
+
+print("\nAverage Demand Forecast:", forecast_comparison["Demand Forecast"])
+print("Average Actual Units Sold:", forecast_comparison["Units Sold"])
+
+forecast_gap = (
+    df["Demand Forecast"] - df["Units Sold"]
+).mean()
+
+print("Average Forecast Gap:", forecast_gap)
+
+# -------------------------------
+# 7. Inventory vs Demand
+# -------------------------------
+inventory_demand = df[
+    ["Inventory Level", "Demand Forecast", "Units Sold"]
+].mean()
+
+print("\nAverage Inventory Level:", inventory_demand["Inventory Level"])
+print("Average Demand Forecast:", inventory_demand["Demand Forecast"])
+print("Average Units Sold:", inventory_demand["Units Sold"])
+
+# -------------------------------
+# 8. Potential Stock Risk
+# -------------------------------
+df["Inventory Gap"] = (
+    df["Inventory Level"] - df["Demand Forecast"]
+)
+
+print("\nAverage Inventory Gap:", df["Inventory Gap"].mean())
+
+high_inventory = (df["Inventory Gap"] > 100).sum()
+low_inventory = (df["Inventory Gap"] < 0).sum()
+
+print("Records with high inventory:", high_inventory)
+print("Records with potential low inventory:", low_inventory)
